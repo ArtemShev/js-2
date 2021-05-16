@@ -1,0 +1,54 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    max-width: 1600px;
+}
+
+header {
+    display: flex;
+    flex-direction: row-reverse;
+    background-color: darkgray;
+    padding: 10px 10px;
+}
+
+.cart-button {
+    border-radius: 15px;
+    padding: 5px 10px;
+}
+
+main {
+    margin: 0 10px;
+}
+
+.goods-list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.goods-item {
+    border: solid 1px black;
+    padding: 15px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.title {
+    margin-top: 5px;
+    text-align: center;
+}
+
+.price {
+    text-align: center;
+    min-width: 67px;
+}
+
+.add {
+    margin-left: 115px;
+    margin-top: 20px;
+    border-radius: 15px;
+    padding: 5px 10px;
+}
