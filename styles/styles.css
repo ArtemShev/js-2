@@ -22,9 +22,16 @@ header {
 
 main {
     margin: 0 10px;
+    display: flex;
+    flex-direction: column;
 }
 
-.goods-list {
+.goods-title {
+    margin-top: 20px;
+}
+
+.goods-list,
+.cart-list {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -47,9 +54,16 @@ main {
     min-width: 67px;
 }
 
-.add {
+.add,
+.delete {
     margin-left: 115px;
     margin-top: 20px;
     border-radius: 15px;
     padding: 5px 10px;
+}
+
+.cart-title {
+    border-top: 1px solid black;
+    margin-top: 30px;
+    padding-top: 15px;
 }
