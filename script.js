@@ -51,22 +51,29 @@ class GoodsList {
     _cart = new Cart();
     constructor() {
         this.goods = [];
+        this.filteredGoods = [];
     }
     fetchGoods(cb) {
         makeGETRequest(`${API_URL}/catalogData.json`, (goods) => {
             this.goods = JSON.parse(goods);
+            this.filteredGoods = JSON.parse(goods);
             cb();
         })
 
     }
+    filterGoods(value) {
+        const regexp = new RegExp(value, 'i');
+        this.filteredGoods = this.goods.filter(good => regexp.test(good.product_name));
+        this.render();
+    }
     render() {
         let listHtml = '';
-        this.goods.forEach(good => {
+        this.filteredGoods.forEach(good => {
             const goodItem = new GoodsItem(good.product_name, good.price, good.id_product);
             listHtml += goodItem.render()
         });
         document.querySelector('.goods-list').innerHTML = listHtml;
-        this._cart.setAddListeners(this.goods);
+        this._cart.setAddListeners(this.filteredGoods);
 
     }
     fullSum() {
@@ -140,5 +147,15 @@ const list = new GoodsList();
 list.fetchGoods(() => {
     list.render();
 });
+list.fullSum();
 
-list.fullSum()
+const searchButton = document.querySelector('.search-button');
+const searchInput = document.querySelector('.goods-search');
+searchButton.addEventListener('click', (e) => {
+    const value = searchInput.value;
+    list.filterGoods(value);
+});
+searchInput.addEventListener('keydown', (e) => {
+    const value = searchInput.value;
+    list.filterGoods(value);
+});
