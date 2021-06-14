@@ -1,7 +1,7 @@
 <template>
     <header>
       <input type="text" class="goods-search" v-model="searchValue" />
-      <button class="search-button" @click="$emit('filter-goods',searchValue)" >Искать</button>
+      <button class="search-button" @click="onClick" >Искать</button>
       <button class="cart-button" type="button" @click="$emit('toggle-cart')">Корзина</button>
     </header>
 </template>
@@ -10,7 +10,17 @@
 export default {
    data: () => ({
     searchValue: '',
-  })
+  }),
+  methods:{
+    onClick(){
+      this.$emit('filter-goods',this.searchValue);
+    }
+  },
+  watch:{
+    searchValue(){
+      this.onClick();
+    }
+  }
 }
 </script>
 <style scoped>

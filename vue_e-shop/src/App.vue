@@ -2,8 +2,8 @@
   <div id="app">
     <Header @toggle-cart="toggleCartStatus" @filter-goods="filterGoods" />
     <main>
-      <GoodsList :goods="filteredGoods" />
-      <Cart :isVisibleCart="isVisibleCart" />
+      <GoodsList @add-to-cart="addToCart" :goods="filteredGoods" />
+      <Cart :makePOSTRequest="makePOSTRequest" :getCart="getCart" :cartGoods="cartGoods" :isVisibleCart="isVisibleCart" />
     </main>
   </div>
 </template>
@@ -15,7 +15,7 @@ import GoodsList from './components/GoodsList.vue';
 import Cart from './components/Cart.vue';
 
 
-const API_URL = "https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses";
+const API_URL = "http://localhost:3000";
 
 export default {
   components:{
@@ -26,19 +26,45 @@ export default {
   data: () => ({
     goods: [],
     filteredGoods: [],
+    cartGoods:[],
     isVisibleCart:false,
   }),
   mounted() {
-    this.makeGETRequest(`${API_URL}/catalogData.json`);
+    this.getGoods();
+    this.getCart();
   },
   methods: {
+    addToCart(item){
+      this.makePOSTRequest(`${API_URL}/addToCart`,item)
+        .then(()=> this.getCart())
+    },
     makeGETRequest(url) {
-      fetch(url)
+      return fetch(url)
         .then((data) => data.json())
-        .then((data) => {
-          this.goods = data;
-          this.filteredGoods = data;
+    },
+     makePOSTRequest(url,data) {
+      return fetch(url,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+      })
+        .then((data)=>data.json())
+    },
+    getGoods(){
+      this.makeGETRequest(`${API_URL}/catalogData`)
+        .then( (data) => {
+        this.goods = data;
+        this.filteredGoods = data;
         });
+    },
+    getCart(){
+      this.makeGETRequest(`${API_URL}/cartData`)
+        .then((data)=> {
+          console.log(data)
+          this.cartGoods = data
+        })
     },
     filterGoods(value) {
         const regexp = new RegExp(value, 'i');

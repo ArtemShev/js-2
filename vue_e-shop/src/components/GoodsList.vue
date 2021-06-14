@@ -2,15 +2,11 @@
 <div>
     <span class="goods-title">Товары:</span>
       <div class="goods-list">
-        <div
-          v-for="item in goods"
-          :key="item.id_product"
-          class="goods-item"
-        >
+        <div v-for="item in goods" :key="item.id_product" class="goods-item">
           <img class="img-item" src="https://picsum.photos/200/150" />
           <h3 class="title">{{ item.product_name }}</h3>
           <p class="price">Цена: {{ item.price }}</p>
-          <button class="add">Добавить</button>
+          <button class="add" @click="onClick(item)">Добавить</button>
         </div>
       </div>
 </div>
@@ -18,12 +14,17 @@
 
 <script>
 export default {
-    props:{
-        goods:{
-            type: Array,
-            default:()=>[],
-        }
+  props:{
+      goods:{
+          type: Array,
+          default:()=>[],
+      }
+  },
+  methods:{
+    onClick(item){
+      this.$emit('add-to-cart',item)
     }
+  }
 }
 </script>
 <style scoped>
@@ -39,7 +40,7 @@ export default {
   border: solid 1px black;
   padding: 15px;
   justify-content: center;
-  margin-top: 30px;
+  margin: 20px;
 }
 .title {
   margin-top: 5px;
